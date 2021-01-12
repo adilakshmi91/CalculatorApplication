@@ -12,14 +12,16 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 
 public class Launchingcalculator {
-	public static AndroidDriver<WebElement> driver=null;
+	public static AndroidDriver<WebElement> driver = null;
+	String sum;
+
 	@Given("^the user opens the calculator app$")
 	public void the_user_opens_the_calculator_app() throws Throwable {
 		DesiredCapabilities cap = new DesiredCapabilities();
-		cap.setCapability(MobileCapabilityType.PLATFORM_NAME, "ANDROID");//"platformName"
-		cap.setCapability(MobileCapabilityType.DEVICE_NAME,"Android Emulator");
-	    cap.setCapability("appPackage", "com.android.calculator2");
-		cap.setCapability("appActivity",  "com.android.calculator2.Calculator");
+		cap.setCapability(MobileCapabilityType.PLATFORM_NAME, "ANDROID");// "platformName"
+		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
+		cap.setCapability("appPackage", "com.android.calculator2");
+		cap.setCapability("appActivity", "com.android.calculator2.Calculator");
 		driver = new AndroidDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), cap);
 		System.out.println("App Launched");
 
@@ -27,15 +29,16 @@ public class Launchingcalculator {
 
 	@When("^the user adds two numbers$")
 	public void the_user_adds_two_numbers() throws Throwable {
-	
+
 		driver.findElement(By.id("digit_2")).click();
 		driver.findElement(By.id("digit_3")).click();
-	    driver.findElement(By.id("op_add")).click();
+		driver.findElement(By.id("op_add")).click();
 		driver.findElement(By.id("digit_9")).click();
 		driver.findElement(By.id("digit_5")).click();
 		driver.findElement(By.id("eq")).click();
 		Thread.sleep(2000);
-		System.out.println(driver.findElement(By.id("result")).getText());
+		sum = driver.findElement(By.id("result")).getText();
+		System.out.println("sum =" +sum);
 
 	}
 
@@ -44,19 +47,26 @@ public class Launchingcalculator {
 		Thread.sleep(5000);
 		driver.findElement(By.id("com.android.calculator2:id/pad_advanced")).click();
 		driver.findElement(By.id("com.android.calculator2:id/op_sqrt")).click();
+		//to hide the advanced pad after open - Unable to inspect back button on emulator
 		driver.findElement(By.id("digit_1")).click();
-		
-		driver.findElement(By.id("digit_1")).click();
-		driver.findElement(By.id("digit_8")).click();
-		
-	   
+		for (int i = 0; i < sum.length(); i++) {
+			driver.findElement(By.id("digit_" + sum.charAt(i))).click();
+		}
+		driver.findElement(By.id("eq")).click();
+		String res=driver.findElement(By.id("result")).getText();
+		System.out.println("Result =" +res);
+
 	}
 
 	@And("^multiply it by minus one$")
 	public void multiply_it_by_minus_one() throws Throwable {
+		driver.findElement(By.id("op_mul")).click();
+		driver.findElement(By.id("op_sub")).click();
+		driver.findElement(By.id("digit_1")).click();
+		driver.findElement(By.id("eq")).click();
+		String output=driver.findElement(By.id("result")).getText();
+		System.out.println("Final output =" +output);
 
 	}
-
-
 
 }

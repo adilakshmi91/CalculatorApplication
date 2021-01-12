@@ -1,4 +1,4 @@
-Feature: Launching calculaor application
+Feature: Launching calculator application
 Scenario: Performing some operations
 Given the user opens the calculator app
 When the user adds two numbers
