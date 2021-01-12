@@ -1,10 +1,14 @@
 package com.calculator.stepdefinition;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
@@ -13,7 +17,8 @@ import io.appium.java_client.remote.MobileCapabilityType;
 
 public class Launchingcalculator {
 	public static AndroidDriver<WebElement> driver = null;
-	String sum;
+	String output;
+	String expectedOutPut = "-10.8627827804912";//emulator giving only these values
 
 	@Given("^the user opens the calculator app$")
 	public void the_user_opens_the_calculator_app() throws Throwable {
@@ -37,8 +42,8 @@ public class Launchingcalculator {
 		driver.findElement(By.id("digit_5")).click();
 		driver.findElement(By.id("eq")).click();
 		Thread.sleep(2000);
-		sum = driver.findElement(By.id("result")).getText();
-		System.out.println("sum =" +sum);
+		output = driver.findElement(By.id("result")).getText();
+		System.out.println("sum of digits =" +output);
 
 	}
 
@@ -49,12 +54,12 @@ public class Launchingcalculator {
 		driver.findElement(By.id("com.android.calculator2:id/op_sqrt")).click();
 		//to hide the advanced pad after open - Unable to inspect back button on emulator
 		driver.findElement(By.id("digit_1")).click();
-		for (int i = 0; i < sum.length(); i++) {
-			driver.findElement(By.id("digit_" + sum.charAt(i))).click();
+		for (int i = 0; i < output.length(); i++) {
+			driver.findElement(By.id("digit_" + output.charAt(i))).click();
 		}
 		driver.findElement(By.id("eq")).click();
-		String res=driver.findElement(By.id("result")).getText();
-		System.out.println("Result =" +res);
+		output=driver.findElement(By.id("result")).getText();
+		System.out.println("Square root of the sum of digits =" +output);
 
 	}
 
@@ -64,8 +69,11 @@ public class Launchingcalculator {
 		driver.findElement(By.id("op_sub")).click();
 		driver.findElement(By.id("digit_1")).click();
 		driver.findElement(By.id("eq")).click();
-		String output=driver.findElement(By.id("result")).getText();
-		System.out.println("Final output =" +output);
+		output = driver.findElement(By.id("result")).getAttribute("text");
+		System.out.println("After mutlipying the square root of sum with -1 =" +output);
+		Assert.assertEquals(output, expectedOutPut);
+		Assert.assertEquals(new BigDecimal(output).setScale(4, RoundingMode.HALF_UP), 
+				                 new BigDecimal(expectedOutPut).setScale(4, RoundingMode.HALF_UP));
 
 	}
 

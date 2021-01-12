@@ -7,7 +7,7 @@ import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features="FeaturesFile/Calculator.Feature", glue= {"com.calculator.stepDefinition"} ,plugin = {
-"html:ExtentReports/cucumber-usermenuhtml-report" })
+"html:Reports/cucumber-calculator-report" })
 
 public class CalculatorRunner {
 	
