@@ -40,7 +40,7 @@ public class Launchingcalculator {
 
 	@And("^takes the square root of that sum$")
 	public void takes_the_square_root_of_that_sum() throws Throwable {
-		
+		driver.findElement(By.className("android.view.ViewGroup")).click();
 	   
 	}
 
