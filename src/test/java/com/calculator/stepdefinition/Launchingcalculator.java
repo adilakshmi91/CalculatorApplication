@@ -27,9 +27,10 @@ public class Launchingcalculator {
 
 	@When("^the user adds two numbers$")
 	public void the_user_adds_two_numbers() throws Throwable {
+	
 		driver.findElement(By.id("digit_2")).click();
 		driver.findElement(By.id("digit_3")).click();
-		driver.findElement(By.id("op_add")).click();
+	    driver.findElement(By.id("op_add")).click();
 		driver.findElement(By.id("digit_9")).click();
 		driver.findElement(By.id("digit_5")).click();
 		driver.findElement(By.id("eq")).click();
@@ -40,7 +41,14 @@ public class Launchingcalculator {
 
 	@And("^takes the square root of that sum$")
 	public void takes_the_square_root_of_that_sum() throws Throwable {
-		driver.findElement(By.className("android.view.ViewGroup")).click();
+		Thread.sleep(5000);
+		driver.findElement(By.id("com.android.calculator2:id/pad_advanced")).click();
+		driver.findElement(By.id("com.android.calculator2:id/op_sqrt")).click();
+		driver.findElement(By.id("digit_1")).click();
+		
+		driver.findElement(By.id("digit_1")).click();
+		driver.findElement(By.id("digit_8")).click();
+		
 	   
 	}
 
